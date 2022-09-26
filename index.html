@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="stylesheet.css" />
+  <title>Vulnerabilidades de trabajo remoto</title>
+
+</head>
+
+<body>
+	<div class="video">
+	<video controls autoplay width="640" height="480">
+		<source src="Módulo 4_Remote Work Vulnerabilities.mp4" type="video/mp4" />
+	</video>
+</div>
+    <div class="preguntasportema"> 
+<fieldset>
+	<legend>Cuestionario Vulnerabilidades de Trabajo Remoto</legend>
+	<div id="test">
+		<div class="cuestion">1. Seleccione una posible amenaza durante el trabajo remoto: </div>
+		<div class="respuestas">
+			<label>
+				<input type="radio" name="0" value="a">&nbsp;a : Fallo de servidores.&nbsp;</label>
+			<label>
+				<input type="radio" name="0" value="b">&nbsp;b : Malware.&nbsp;</label>
+			<label>
+				<input type="radio" name="0" value="c">&nbsp;c : Fallo de conexi&oacute;n.&nbsp;</label>
+		</div>
+		<div class="cuestion">2. Seleccione una medida de seguridad durante el trabajo remoto:</div>
+		<div class="respuestas">
+			<label>
+				<input type="radio" name="1" value="a">&nbsp;a : Bloqueo de sesi&oacute;n.&nbsp;</label>
+			<label>
+				<input type="radio" name="1" value="b">&nbsp;b : Verificación en dos pasos.&nbsp;</label>
+			<label>
+				<input type="radio" name="1" value="c">&nbsp;c : Guardar contrase&nacute;as.&nbsp;</label>
+		</div>
+		<div class="cuestion">3. “Protege los datos de accesos no autorizados y garantizan tanto la confidencialidad como la integridad”. El enunciado anterior corresponde a la medida:</div>
+		<div class="respuestas">
+			<label>
+				<input type="radio" name="2" value="a">&nbsp;a : Sistema operativo de arranque.&nbsp;</label>
+			<label>
+				<input type="radio" name="2" value="b">&nbsp;b : Protección f&iacute;sica.&nbsp;</label>
+			<label>
+				<input type="radio" name="2" value="c">&nbsp;c : Cifrar soportes.&nbsp;</label>
+		</div>
+	</div>
+	<button id="boton">Mostrar resultado</button>
+	<div id="resultado">
+		<br>
+	</div>
+	<script>
+		const contenedor = document.getElementById("test");
+		const botonRes = document.getElementById("boton");
+		const resultadoTest = document.getElementById("resultado");
+
+		const preguntas = [
+			{
+				pregunta: "1. Seleccione una posible amenaza durante el trabajo remoto:",
+				respuestas:
+				{
+					a: "Fallo de servidores.",
+					b: "Malware.",
+					c: "Fallo de conexión.",
+				},
+				respuestaCorrecta: "b",
+			},
+			{
+				pregunta: "2. Seleccione una medida de seguridad durante el trabajo remoto:",
+				respuestas:
+				{
+					a: "Bloqueo de sesión.",
+					b: "Verificación en dos pasos.",
+					c: "Guardar contraseñas.",
+				},
+				respuestaCorrecta: "a",
+			},
+			{
+				pregunta: "3. “Protege los datos de accesos no autorizados y garantizan tanto la confidencialidad como la integridad”. El enunciado anterior corresponde a la medida:",
+				respuestas:
+				{
+					a: "Sistema operativo de arranque.",
+					b: "Protección física.",
+					c: "Cifrar soportes.",
+				},
+				respuestaCorrecta: "c",
+			},
+
+		];
+
+		function mostrarTest()
+		{
+			const preguntasYrespuestas = [];
+
+			preguntas.forEach((preguntaActual, numeroDePregunta) =>
+			{
+
+				const respuestas = [];
+
+				for (letraRespuesta in preguntaActual.respuestas)
+				{
+
+					respuestas.push(
+
+						`
+        <label>
+                  <input type="radio" name="${numeroDePregunta}" value="${letraRespuesta}" />
+                  ${letraRespuesta} : ${preguntaActual.respuestas[letraRespuesta]} <br>
+              </label>` 
+					);
+                   
+				}
+
+				preguntasYrespuestas.push(
+					`
+      <div class="cuestion">${preguntaActual.pregunta}</div>
+      
+          <div class="respuestas"> ${respuestas.join("")} </div>
+          `
+				);
+			});
+
+			contenedor.innerHTML = preguntasYrespuestas.join("");
+		}
+
+		mostrarTest();
+
+		function mostrarResultado()
+		{
+			const respuestas = contenedor.querySelectorAll(".respuestas");
+			let respuestasCorrectas = 0;
+
+			preguntas.forEach((preguntaActual, numeroDePregunta) =>
+			{
+				const todasLasRespuestas = respuestas[numeroDePregunta];
+				const checkboxRespuestas = `input[name='${numeroDePregunta}']:checked`;
+				const respuestaElegida = (
+					todasLasRespuestas.querySelector(checkboxRespuestas) ||
+					{}
+				).value;
+
+				if (respuestaElegida === preguntaActual.respuestaCorrecta)
+				{
+					respuestasCorrectas++;
+
+					respuestas[numeroDePregunta].style.color = "blue";
+				}
+				else
+				{
+					respuestas[numeroDePregunta].style.color = "red";
+				}
+			});
+
+			resultadoTest.innerHTML =
+				"Usted ha acertado " +
+				respuestasCorrectas +
+				" preguntas de un total de " +
+				preguntas.length;
+		}
+
+		botonRes.addEventListener("click", mostrarResultado);
+
+	</script>
+       </div>
+
+</fieldset>
+</body>
+</html>
